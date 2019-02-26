@@ -2,11 +2,15 @@
 
 scraping from King-lms
 
-スクレイピングというかAPI叩いてる
+スクレイピングというかKingのAPIを叩いてる
 
-DBは叩いたAPIをそのまま入れてるから汚い
+DBは叩いたAPIをそのまま入れてるから正規化もしてなくて汚い
 
-ついでだから画面も作っちゃった
+エンドポイントを叩けばJSONでデータが返ってきます。
+
+1枚だけ画面があり。
+
+![img](https://user-images.githubusercontent.com/25787913/53440270-7b770f00-3a47-11e9-8a70-4a199eb7ab7d.png)
 
 ## Setup
 
@@ -27,22 +31,14 @@ export each env
 
 ### Direct
 
-1. run MySQL and create database {config.yml - uri}
+1. run MySQL @{config.yml - uri}
 
-2. pip install { below you need }
+   - ex.`docker run --rm -p 3306:3306 -e MYSQL_ROOT_PASSWORD=king -e MYSQL_DATABASE=king -d mysql`
+   - overwrite `config.yml` -> `uri: "sqlite:///:memory:"`
+
+2. `pip install -r requirements.txt`
 
 3. `python main.py`
-
-pip
-
-- flask
-- flask_cors
-- requests
-- yaml
-
-### On Docker
-
-1. `docker-compose up -d`
 
 default: [http://0.0.0.0:5000](http://0.0.0.0:5000)
 
@@ -58,7 +54,7 @@ service:
     encoding: utf-8
     echo: False
   server:
-    host: '0.0.0.0'
+    host: "0.0.0.0"
     # host: '127.0.0.1'
     port: 5000
     debug: False
