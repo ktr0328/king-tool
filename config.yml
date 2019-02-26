@@ -1,0 +1,40 @@
+service:
+  db:
+    # mysql+pymysql://<user>:<password>@<host>/<database>?charset=utf8
+    uri: "mysql+pymysql://root:king@127.0.0.1/king?charset=utf8"
+    # uri: "sqlite:///:memory:"
+    encoding: utf-8
+    echo: False
+  server:
+    host: '0.0.0.0'
+    port: 5000
+    debug: False
+
+kcg:
+  get:
+    # フルスケジュール
+    fetchEvents: https://king.kcg.kyoto/campus/Mvc/FullSchedule/FetchEvents?id=&_=
+    # グループ
+    getGroups: https://king.kcg.kyoto/campus/Mvc/MasterPage/GetGroups
+    # コースフィード
+    getAnnouncementAlerts: https://king.kcg.kyoto/campus/Mvc/Home/GetAnnouncementAlerts
+    # レポート
+    getDeliverables: https://king.kcg.kyoto/campus/Mvc/Home/GetDeliverables
+    # 学習教材
+    getContentAlerts: https://king.kcg.kyoto/campus/Mvc/Home/GetContentAlerts
+    getAttendanceAlert: shttps://king.kcg.kyoto/campus/Mvc/Home/GetAttendanceAlerts
+    getLectureItems: https://king.kcg.kyoto/campus/Mvc/Home/GetLectureItems
+    getJournalItems: https://king.kcg.kyoto/campus/Mvc/Home/GetJournalItems
+    getClassmateReflectionsAlerts: https://king.kcg.kyoto/campus/Mvc/Home/GetClassmateReflectionsAlerts
+    getDataAndCount: https://king.kcg.kyoto/campus/ws/v2/WaveletService.asmx/GetDataAndCount
+
+  post:
+    login:
+      url: https://king.kcg.kyoto/campus/Secure/Login.aspx
+      params:
+        TextLoginID: id
+        TextPassword: password
+        __EVENTVALIDATION: /wEdAASsWh7OxHZiOdC3v4rgI+lhmoSnNhet8R/Uqc0Y+L4tIt5lw99SYJ+Wv9EE4DvTk2BF8gstbfJCPOTeBk01E6UD2dD7i/ZD0yK6ahPUIO4y8Y1lnjI=
+        __VIEWSTATE: /wEPDwULLTE2MDkwMzkxOTRkZHY/AzvXjoMqTsVgJd4ipDEPUaNz
+        __VIEWSTATEGENERATOR: C57CFBF9
+        buttonHtmlLogon: ログイン

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang='en' class="has-navbar-fixed-top">
+
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <title>Document</title>
+  <style>
+    .navbar>a {
+      color: white;
+    }
+
+    .message-contents {
+      /* margin: 10px; */
+      /* width: 30vw; */
+      max-height: 200px;
+      overflow: scroll;
+    }
+
+    .message-header>p {
+      margin-right: 5px;
+    }
+
+    .wrapper {
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar is-dark is-fixed-top is-fluid" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}">
+        <img src='/static/kyocotan.gif' alt='' width="32" height="32">
+      </a>
+      <span class="subtitle navbar-item">KCG tool</span>
+    </div>
+  </nav>
+
+  <section class="hero is-medium is-link">
+    <div class="hero-body">
+      <h2 class="title is-spaced">Scraping from King-lms</h2>
+      <p>なんちゃってスクレイピング。King-lmsのAPI叩いてます。</p>
+      <p>データ引っこ抜いてデータベースに突っ込んでる。</p>
+      <p>画像が表示されない場合はKing-lmsにログインしてください。</p>
+      <p>どうしようもできません。</p>
+    </div>
+    <div class="hero-foot">
+      <nav class="navbar">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <button id="reload" class="button is-rounded is-danger">DB 更新</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section is-medium has-text-centered">
+    <div class="columns">
+      <div class="is-6 column">
+        <div class="columns is-multiline wrapper">
+          {% for report in reports %}
+          <div class="column is-6">
+            <article class="card is-link">
+              <div class="message-header" style="background-color: {{ report.get('color') }}">
+                <p>{{ report.get('GroupName')}}</p>
+                <img src="https://king.kcg.kyoto/campus/{{ report.get('PictureUrl') }}" alt='' width="60" height="40">
+              </div>
+              {% if report.get('description') %}
+              <div class="message-body">
+                <a href="https://king.kcg.kyoto/campus/Course/{{ report.get('GroupID') }}/21?tk={{ report.get('id') }}">
+                  <h2>{{ report.get('title') }}</h2>
+                </a>
+                <hr>
+                <div class="message-contents">
+                  <p>{{ report.get('description') }}</p>
+                </div>
+              </div>
+              {% endif %}
+              <div class="message-foot">
+                <span class="is-size-7">{{ report.get('startfortip') }} ~ {{ report.get('endfortip') }}</span>
+                <span class="tag is-primary">{{ report.get('rest') }}</span>
+              </div>
+            </article>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="is-6 column">
+        <div class="columns is-multiline wrapper">
+          {% for report in tail %}
+          <div class="column  is-6">
+            <article class="card is-link">
+              <div class="message-header">
+                <p>{{ report.get('GroupName') }}</p>
+                <img src="https://king.kcg.kyoto/campus/{{ report.get('PictureUrl') }}" alt='' width="60" height="40">
+              </div>
+              {% if report.get('GroupName') %}
+              <div class="message-body">
+                <a href="https://king.kcg.kyoto/campus/Course/{{ report.get('GroupID') }}/21/?tk={{ report.get('TaskID') }}">
+                  <h2>{{ report.get('Title') }}</h2>
+                </a>
+              </div>
+              {% endif %}
+              <div class="message-foot">
+                <p class="is-size-7">{{ report.get('DisplayDate') }}</p>
+              </div>
+            </article>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="section is-link has-text-centered">
+    <h2 class="title is-spaced">Endpoints</h2>
+    <ul>
+      <li>
+        <a href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}">
+          http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}
+        </a>
+      </li>
+      <li>
+        <a href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/reports">
+          http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/reports
+        </a>
+      </li>
+      <li>
+        <a href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/reports/7">
+          http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/reports/[id]
+        </a>
+      </li>
+      <li>
+        <a href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/reports/load_from_king">
+          http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/reports/load_from_king
+        </a>
+      </li>
+      <li>
+        <a href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/full_reports">
+          http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/reports/full_reports
+        </a>
+      </li>
+      <li>
+        <a href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/full_events">
+          http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}/reports/full_events
+        </a>
+      </li>
+    </ul>
+  </section>
+</body>
+
+<script>
+  const baseUri = "{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}"
+
+  const endPoints = {
+    reports: `http://${baseUri}/reports`,
+    load_from_king: `http://${baseUri}/load_from_king`
+  }
+
+  const request = uri => {
+    return new Promise((resolve, reject) => {
+      fetch(uri)
+        .then(e => e.json())
+        .then(e => {
+          resolve(e)
+        })
+    })
+  }
+
+  const main = () => {
+    const reloadButton = document.querySelector('#reload')
+    reloadButton.addEventListener('click', e => {
+      reloadButton.classList.add('is-loading')
+
+      const res = request(endPoints.load_from_king)
+      res.then(e => {
+        reloadButton.classList.remove('is-loading')
+        window.location = '/'
+      })
+    })
+  }
+
+  window.onload = main
+</script>
+
+</html>
