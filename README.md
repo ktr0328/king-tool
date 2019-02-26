@@ -1,16 +1,18 @@
 # KCG Tool
 
-scraping from King-lms
+学内サイトスクレイピング
 
-スクレイピングというかKingのAPIを叩いてる
+スクレイピングというか King の API を叩いてる
 
-DBは叩いたAPIのレスをそのまま入れてるから正規化もしてなくて汚い
+DB は叩いた API のレスをそのまま入れてるから正規化もしてなくて汚い
 
-エンドポイントを叩けばJSONでデータが返ってきます。
+エンドポイントを叩けば JSON でデータが返ってきます。
 
-1枚だけ画面があり。
+1 枚だけ画面があり。
 
 ![img](https://user-images.githubusercontent.com/25787913/53440270-7b770f00-3a47-11e9-8a70-4a199eb7ab7d.png)
+
+ローカルはいい。速い。
 
 ## Setup
 
