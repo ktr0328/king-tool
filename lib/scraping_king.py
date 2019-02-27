@@ -16,7 +16,7 @@ from .models.models import db
 
 class ThiefKing(object):
     def __init__(self):
-        self.session = self.__set_session()
+        self.session = self.set_session()
 
     def get_report(self, id):
         item = db.query(Event).filter_by(id=id).first()
@@ -80,6 +80,7 @@ class ThiefKing(object):
         return items
 
     def scraping_full_events_from_king(self):
+        self.session = self.set_session()
         now = int(time())
         full_schedule_endpoint = conf.endpoint.get('fetchEvents')
 
@@ -208,7 +209,7 @@ class ThiefKing(object):
 
         return results
 
-    def __set_session(self):
+    def set_session(self):
         session = requests.session()
 
         params = conf.login.get('params')

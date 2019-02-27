@@ -7,7 +7,10 @@
   <meta http-equiv='X-UA-Compatible' content='ie=edge'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-  <title>Document</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/rellax/1.8.0/rellax.min.js'></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+
+  <title>King Tool</title>
   <style>
     .navbar>a {
       color: white;
@@ -27,20 +30,28 @@
     .wrapper {
       padding: 10px;
     }
+
+    body {
+      background-image: url(/static/shape.svg);
+      background-size: cover;
+      /* background-attachment: fixed; */
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
   </style>
 </head>
 
 <body>
   <nav class="navbar is-dark is-fixed-top is-fluid" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}">
+      <a class="navbar-item" href="/">
         <img src='/static/kyocotan.gif' alt='' width="32" height="32">
       </a>
-      <span class="subtitle navbar-item">KCG tool</span>
+      <span class="subtitle navbar-item">King tool</span>
     </div>
   </nav>
 
-  <section class="hero is-medium is-link">
+  <section class="hero is-medium is-link rellax" data-rellax-speed="-4">
     <div class="hero-body">
       <h2 class="title is-spaced">Scraping from King-lms</h2>
       <p>なんちゃってスクレイピング。King-lmsのAPI叩いてます。</p>
@@ -58,13 +69,13 @@
     </div>
   </section>
 
-  <section class="section is-medium has-text-centered">
+  <section class="section is-medium has-text-centered reports">
     <div class="columns">
       <div class="is-6 column">
         <div class="columns is-multiline wrapper">
           {% for report in reports %}
           <div class="column is-6">
-            <article class="card is-link">
+            <article class="card is-link report">
               <div class="message-header" style="background-color: {{ report.get('color') }}">
                 <p>{{ report.get('GroupName')}}</p>
                 <img src="https://king.kcg.kyoto/campus/{{ report.get('PictureUrl') }}" alt='' width="60" height="40">
@@ -94,7 +105,7 @@
         <div class="columns is-multiline wrapper">
           {% for report in tail %}
           <div class="column  is-6">
-            <article class="card is-link">
+            <article class="card is-link report">
               <div class="message-header">
                 <p>{{ report.get('GroupName') }}</p>
                 <img src="https://king.kcg.kyoto/campus/{{ report.get('PictureUrl') }}" alt='' width="60" height="40">
@@ -120,6 +131,44 @@
 
   <section class="section is-link has-text-centered">
     <h2 class="title is-spaced">Endpoints</h2>
+    <img src='/static/animation.svg' alt='' srcset=''>
+    <style>
+      .flex-container {
+        display: flex;
+      }
+
+      .flex-container span {
+        flex: 1 1 auto;
+        /* width: 50px; */
+        height: 5vh;
+        transition: 1.2s;
+      }
+
+      .flex-container span:nth-child(odd) {
+        background-color: skyblue;
+      }
+
+      .flex-container span:nth-child(even) {
+        background-color: slateblue;
+      }
+
+      .section span:hover {
+        flex-grow: 3;
+        /* background-color: red; */
+        opacity: .4;
+      }
+    </style>
+    <section class="section">
+      <div class="flex-container">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </section>
+
     <ul>
       <li>
         <a href="http://{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}">
@@ -156,6 +205,7 @@
 </body>
 
 <script>
+  new Rellax('.rellax')
   const baseUri = "{{ conf.get('server').get('host') }}:{{ conf.get('server').get('port') }}"
 
   const endPoints = {
@@ -183,6 +233,18 @@
         reloadButton.classList.remove('is-loading')
         window.location = '/'
       })
+    })
+
+    sr = ScrollReveal({
+      reset: true
+    })
+
+    sr.reveal('.report', {
+      easing: 'ease',
+      duration: 400,
+      distance: '400px',
+      opacity: 0,
+      scale: 0
     })
   }
 
